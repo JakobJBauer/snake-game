@@ -1,23 +1,31 @@
 import pygame
-from .frame import Frame
-from .snake import Snake
+from frame import Frame
+from snake import Snake
+import time
 
 # region define constants
 FRAME_WIDTH = 500
 FRAME_HEIGHT = 500
 COLOR = 'red3'
-FPS = 60
+FPS = 30
 PIXEL_SIZE = 10
 # endregion
 
 pygame.init()
 
 frame = Frame(FRAME_WIDTH, FRAME_HEIGHT, "Snake - by Jakob J. Bauer")
-snake = Snake(frame, pygame.color.THECOLORS.get(COLOR, (255, 0, 0, 0)))
-pygame.time.Clock().tick(FPS)  # Set framerate
+display = frame.get_display()
+snake = Snake(frame, pygame.color.THECOLORS.get(COLOR, (255, 0, 0)), PIXEL_SIZE)
+clock = pygame.time.Clock()
 
+loosing_text = pygame.font.SysFont("Comic Sans MS", 30).render("You died!", False, (0, 255, 0))
 
-"""while True:
+t0 = time.time()
+
+run = True
+while run:
+    tn = time.time()
+    clock.tick(FPS * ((tn - t0) * 0.01 + 0.8))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -26,43 +34,21 @@ pygame.time.Clock().tick(FPS)  # Set framerate
     keys = pygame.key.get_pressed()
 
     if keys[pygame.K_LEFT]:
-        if x - velocity >= 0:
-            x -= velocity
-        else:
-            x = 0
+        snake.set_direction("left")
     if keys[pygame.K_RIGHT]:
-        if x + width + velocity <= max_x:
-            x += velocity
-        else:
-            x = max_x - width
+        snake.set_direction("right")
+    if keys[pygame.K_DOWN]:
+        snake.set_direction("down")
+    if keys[pygame.K_UP]:
+        snake.set_direction("up")
 
-    if not is_jumping:
-        if keys[pygame.K_DOWN]:
-            if y + height + velocity <= max_y:
-                y += velocity
-            else:
-                y = max_y - height
-        if keys[pygame.K_UP]:
-            if y - velocity >= 0:
-                y -= velocity
-            else:
-                y = 0
-        if keys[pygame.K_SPACE]:
-            is_jumping = True
-    else:
-        if jump_count >= -10:
-            neg = 1
-            if jump_count < 0:
-                neg = -1
+    frame.window.fill((0, 0, 0))
+    snake.move()
+    snake.draw()
 
-            y -= jump_count ** 2 * neg * gravity
-            jump_count -= 1
-        else:
-            is_jumping = False
-            jump_count = 10
+    if snake.is_dead():
+        display.blit(loosing_text, (200, 200))
 
-    win.fill((0, 0, 0))
-    pygame.draw.rect(win, (255, 0, 0), (x, y, width, height))
-    pygame.display.update()"""
+    pygame.display.update()
 
 pygame.quit()

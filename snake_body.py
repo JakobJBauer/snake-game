@@ -1,8 +1,5 @@
-from .main import PIXEL_SIZE
-
-
 class SnakeBody:
-    def __init__(self, x: int, y: int, _width: int = PIXEL_SIZE):
+    def __init__(self, x: int, y: int, _width: int):
         self.x = x
         self.y = y
         self.width = _width

@@ -1,22 +1,23 @@
 import pygame
-from .frame import Frame
-from .snake_body import SnakeBody
-from .main import PIXEL_SIZE
+from frame import Frame
+from snake_body import SnakeBody
 
 
 class Snake:
-    def __init__(self, frame: Frame, color: pygame.color):
+    def __init__(self, frame: Frame, color: pygame.color, pixel_size: int):
         self.frame = frame
         self.x = frame.get_width() // 2
         self.y = frame.get_height() // 2
         self.body = [
-            SnakeBody(self.x - 2, self.y),
-            SnakeBody(self.x - 1, self.y),
-            SnakeBody(self.x, self.y)
+            SnakeBody(self.x - 2 * pixel_size, self.y, pixel_size),
+            SnakeBody(self.x - pixel_size, self.y, pixel_size),
+            SnakeBody(self.x, self.y, pixel_size)
         ]
         self.color = color
         self.growth = 0
         self.direction = "right"
+        self.pixel_size = pixel_size
+        self.display = frame.get_display()
 
     def get_snake(self):
         return self.body
@@ -25,29 +26,30 @@ class Snake:
         self.growth += factor
 
     def move(self):
-        if self.growth > 0:
-            self.growth -= 1
-        else:
-            self.body.pop()
-        self.body.append(self._get_new_coordinate())
+        if not self.is_dead():
+            if self.growth > 0:
+                self.growth -= 1
+            else:
+                self.body.pop(0)
+            self.body.append(self._get_new_coordinate())
 
     def draw(self):
         for body_sequence in self.get_snake():
-            pygame.draw.rect(self.frame, self.color, body_sequence.coordinates())
+            pygame.draw.rect(self.display, self.color, pygame.Rect(*body_sequence.properties()))
 
     def _get_new_coordinate(self):
         x, y = self.body[-1].coordinates()
 
         if self.direction == "up":
-            y -= PIXEL_SIZE
+            y -= self.pixel_size
         elif self.direction == "down":
-            y += PIXEL_SIZE
+            y += self.pixel_size
         elif self.direction == "left":
-            x -= PIXEL_SIZE
+            x -= self.pixel_size
         elif self.direction == "right":
-            x += PIXEL_SIZE
+            x += self.pixel_size
 
-        return SnakeBody(x, y)
+        return SnakeBody(x, y, self.pixel_size)
 
     def set_direction(self, direction: str):
         if direction not in ("up", "down", "left", "right"):
@@ -55,7 +57,7 @@ class Snake:
         self.direction = direction
 
     def is_dead(self):
-        return self._bite_itself() and self._hit_obstacle()
+        return self._bite_itself() or self._hit_obstacle()
 
     def _bite_itself(self):
         snake_bodies = self.get_snake()

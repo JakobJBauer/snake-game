@@ -5,7 +5,7 @@ class Frame:
     def __init__(self, width: int, height: int, caption: str):
         self.width = width
         self.height = height
-        self.border = pygame.display.set_mode((width, height))
+        self.window = pygame.display.set_mode((width, height))
         pygame.display.set_caption(caption)
 
     def get_width(self):
@@ -15,4 +15,7 @@ class Frame:
         return self.height
 
     def get_frame(self):
-        return self.border
+        return self.window
+
+    def get_display(self):
+        return self.window
