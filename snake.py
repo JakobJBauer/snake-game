@@ -53,3 +53,23 @@ class Snake:
         if direction not in ("up", "down", "left", "right"):
             raise ValueError("Direction must be 'up', 'down', 'left' or 'right'")
         self.direction = direction
+
+    def is_dead(self):
+        return self._bite_itself() and self._hit_obstacle()
+
+    def _bite_itself(self):
+        snake_bodies = self.get_snake()
+        for body in snake_bodies:
+            temp_bodies = snake_bodies.copy()
+            temp_bodies.remove(body)
+            if body in temp_bodies:
+                return True
+        return False
+
+    def _hit_obstacle(self):
+        x, y = self.get_snake()[-1].coordinates()
+        if x < 0 or x > self.frame.get_width():
+            return True
+        if y < 0 or y > self.frame.get_height():
+            return True
+        return False

@@ -11,5 +11,5 @@ class SnakeBody:
     def coordinates(self):
         return self.x, self.y
 
-    def point(self):
+    def properties(self):
         return self.x, self.y, self.width, self.height
