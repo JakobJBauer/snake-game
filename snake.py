@@ -22,6 +22,9 @@ class Snake:
     def get_snake(self):
         return self.body
 
+    def get_head(self):
+        return self.get_snake()[-1]
+
     def grow(self, factor: int = 1):
         self.growth += factor
 

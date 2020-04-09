@@ -1,7 +1,9 @@
 import pygame
+import time
+import random
 from frame import Frame
 from snake import Snake
-import time
+from food import Food
 
 # region define constants
 FRAME_WIDTH = 500
@@ -16,11 +18,13 @@ pygame.init()
 frame = Frame(FRAME_WIDTH, FRAME_HEIGHT, "Snake - by Jakob J. Bauer")
 display = frame.get_display()
 snake = Snake(frame, pygame.color.THECOLORS.get(COLOR, (255, 0, 0)), PIXEL_SIZE)
+food = Food(PIXEL_SIZE, display, frame, pygame.color.THECOLORS[COLOR], snake)
 clock = pygame.time.Clock()
 
 loosing_text = pygame.font.SysFont("Comic Sans MS", 30).render("You died!", False, (0, 255, 0))
 
 t0 = time.time()
+food.get_eaten()
 
 run = True
 while run:
@@ -44,7 +48,13 @@ while run:
 
     frame.window.fill((0, 0, 0))
     snake.move()
+
+    eaten = food.eating_process()
+    if eaten:
+        food.set_food_color((random.randint(0, 222), random.randint(0, 222), random.randint(0, 222)))
+
     snake.draw()
+    food.redraw()
 
     if snake.is_dead():
         display.blit(loosing_text, (200, 200))
