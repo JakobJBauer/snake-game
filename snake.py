@@ -73,8 +73,8 @@ class Snake:
 
     def _hit_obstacle(self):
         x, y = self.get_snake()[-1].coordinates()
-        if x < 0 or x > self.frame.get_width():
+        if x < 0 or x > self.frame.get_width()-1:
             return True
-        if y < 0 or y > self.frame.get_height():
+        if y < 0 or y > self.frame.get_height()-1:
             return True
         return False

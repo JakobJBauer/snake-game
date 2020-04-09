@@ -14,8 +14,8 @@ class Food(SnakeBody):
         self.snake = snake
 
     def spawn(self):
-        self.x = random.randint(0, self.frame.get_width() // (self.width-1)) * self.width
-        self.y = random.randint(0, self.frame.get_height() // (self.height-1)) * self.height
+        self.x = random.randint(1, (self.frame.get_width() // self.width) - 1) * self.width
+        self.y = random.randint(1, (self.frame.get_height() // self.height) - 1) * self.height
 
     def redraw(self):
         pygame.draw.rect(self.display, self.color, pygame.Rect(*self.properties()))

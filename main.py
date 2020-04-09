@@ -37,13 +37,13 @@ while run:
 
     keys = pygame.key.get_pressed()
 
-    if keys[pygame.K_LEFT]:
+    if keys[pygame.K_LEFT] and snake.direction != "right":
         snake.set_direction("left")
-    if keys[pygame.K_RIGHT]:
+    if keys[pygame.K_RIGHT] and snake.direction != "left":
         snake.set_direction("right")
-    if keys[pygame.K_DOWN]:
+    if keys[pygame.K_DOWN] and snake.direction != "up":
         snake.set_direction("down")
-    if keys[pygame.K_UP]:
+    if keys[pygame.K_UP] and snake.direction != "down":
         snake.set_direction("up")
 
     frame.window.fill((0, 0, 0))
