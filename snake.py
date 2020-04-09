@@ -11,7 +11,7 @@ class Snake:
         self.body = [
             SnakeBody(self.x - 2 * pixel_size, self.y, pixel_size),
             SnakeBody(self.x - pixel_size, self.y, pixel_size),
-            SnakeBody(self.x, self.y, pixel_size)
+            SnakeBody(self.x, self.y, pixel_size),
         ]
         self.color = color
         self.growth = 0
