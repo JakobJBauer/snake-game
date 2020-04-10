@@ -25,10 +25,6 @@ class Food(SnakeBody):
         self.redraw()
 
     def eating_process(self) -> bool:
-        snake_x, snake_y = self.snake.get_head().coordinates()
-        x, y = self.coordinates()
-        print(f"Snake coords: {self.snake.get_head().coordinates()} Food coords: {self.coordinates()}")
-        hit = self.snake.get_head().coordinates() == self.coordinates()
         if self.snake.get_head().coordinates() == self.coordinates():
             self.get_eaten()
             self.snake.grow()
