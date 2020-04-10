@@ -15,7 +15,7 @@ class Snake:
         ]
         self.color = color
         self.growth = 0
-        self.direction = "right"
+        self.direction = "hold"
         self.pixel_size = pixel_size
         self.display = frame.get_display()
         self.score = 0

@@ -54,12 +54,13 @@ while start:
             start = True
             run = False
 
-        frame.window.fill((0, 0, 0))
-        snake.move()
+        if snake.direction != "hold":
+            frame.window.fill((0, 0, 0))
+            snake.move()
 
-        eaten = food.eating_process()
-        if eaten:
-            food.set_food_color((random.randint(0, 222), random.randint(0, 222), random.randint(0, 222)))
+            eaten = food.eating_process()
+            if eaten:
+                food.set_food_color((random.randint(0, 222), random.randint(0, 222), random.randint(0, 222)))
 
         snake.draw()
         food.redraw()
