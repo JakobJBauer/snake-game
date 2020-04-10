@@ -11,7 +11,7 @@ class Snake:
         self.body = [
             SnakeBody(self.x - 2 * pixel_size, self.y, pixel_size),
             SnakeBody(self.x - pixel_size, self.y, pixel_size),
-            SnakeBody(self.x, self.y, pixel_size),
+            SnakeBody(self.x, self.y, pixel_size)
         ]
         self.color = color
         self.growth = 0
@@ -63,12 +63,12 @@ class Snake:
         return self._bite_itself() or self._hit_obstacle()
 
     def _bite_itself(self):
-        snake_bodies = self.get_snake()
-        for body in snake_bodies:
-            temp_bodies = snake_bodies.copy()
-            temp_bodies.remove(body)
-            if body in temp_bodies:
-                return True
+        snake_bodies = self.get_snake().copy()
+        for i in range(len(snake_bodies)):
+            current_body = snake_bodies.pop(0)
+            for snake_body in snake_bodies:
+                if current_body.coordinates() == snake_body.coordinates():
+                    return True
         return False
 
     def _hit_obstacle(self):
