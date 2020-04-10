@@ -17,6 +17,11 @@ class Food(SnakeBody):
         self.x = random.randint(1, (self.frame.get_width() // self.width) - 1) * self.width
         self.y = random.randint(1, (self.frame.get_height() // self.height) - 1) * self.height
 
+        for body_part in self.snake.get_snake():
+            x, y = body_part.coordinates()
+            if x == self.x and y == self.y:
+                self.spawn()
+
     def redraw(self):
         pygame.draw.rect(self.display, self.color, pygame.Rect(*self.properties()))
 
