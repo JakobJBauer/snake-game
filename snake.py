@@ -18,6 +18,7 @@ class Snake:
         self.direction = "right"
         self.pixel_size = pixel_size
         self.display = frame.get_display()
+        self.score = 0
 
     def get_snake(self):
         return self.body
@@ -27,6 +28,7 @@ class Snake:
 
     def grow(self, factor: int = 1):
         self.growth += factor
+        self.score += factor
 
     def move(self):
         if not self.is_dead():
@@ -61,6 +63,15 @@ class Snake:
 
     def is_dead(self):
         return self._bite_itself() or self._hit_obstacle()
+
+    def revive(self):
+        self.body = [
+            SnakeBody(self.x - 2 * self.pixel_size, self.y, self.pixel_size),
+            SnakeBody(self.x - self.pixel_size, self.y, self.pixel_size),
+            SnakeBody(self.x, self.y, self.pixel_size)
+        ]
+        self.set_direction("left")
+        self.score = 0
 
     def _bite_itself(self):
         snake_bodies = self.get_snake().copy()
