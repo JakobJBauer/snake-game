@@ -11,6 +11,7 @@ FRAME_HEIGHT = 500
 COLOR = 'red3'
 FPS = 30
 PIXEL_SIZE = 10
+COMIC_SANS_MS_KEY = "Comic Sans MS"
 # endregion
 
 pygame.init()
@@ -24,8 +25,8 @@ while start:
     food = Food(PIXEL_SIZE, display, frame, pygame.color.THECOLORS[COLOR], snake)
     clock = pygame.time.Clock()
 
-    loosing_text = pygame.font.SysFont("Comic Sans MS", 30).render("You died!", False, (0, 255, 0))
-    revive_text = pygame.font.SysFont("Comic Sans MS", 30).render("To restart, press Space.", False, (0, 255, 0))
+    loosing_text = pygame.font.SysFont(COMIC_SANS_MS_KEY, 30).render("You died!", False, (0, 255, 0))
+    revive_text = pygame.font.SysFont(COMIC_SANS_MS_KEY, 30).render("To restart, press Space.", False, (0, 255, 0))
 
     food.get_eaten()
 
@@ -35,9 +36,9 @@ while start:
             t0 = time.time()
         if not snake.is_dead():
             tn = time.time()
-        time_text = pygame.font.SysFont("Comic Sans MS", 16).render(f"Time: {round(tn - t0, 1)}", False, (0, 255, 0))
-        score_text = pygame.font.SysFont("Comic Sans MS", 16).render(f"Score: {snake.score}", False, (0, 255, 0))
-        clock.tick(FPS * ((tn - t0) * 0.01 + 0.8))
+        time_text = pygame.font.SysFont(COMIC_SANS_MS_KEY, 16).render(f"Time: {round(tn - t0, 1)}", False, (0, 255, 0))
+        score_text = pygame.font.SysFont(COMIC_SANS_MS_KEY, 16).render(f"Score: {snake.score}", False, (0, 255, 0))
+        clock.tick((FPS * ((tn - t0) * 0.01 + 0.8)) / 5)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
