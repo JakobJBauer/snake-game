@@ -27,12 +27,16 @@ while start:
     loosing_text = pygame.font.SysFont("Comic Sans MS", 30).render("You died!", False, (0, 255, 0))
     revive_text = pygame.font.SysFont("Comic Sans MS", 30).render("To restart, press Space.", False, (0, 255, 0))
 
-    t0 = time.time()
     food.get_eaten()
 
     run = True
     while run:
-        tn = time.time()
+        if snake.direction == "hold":
+            t0 = time.time()
+        if not snake.is_dead():
+            tn = time.time()
+        time_text = pygame.font.SysFont("Comic Sans MS", 16).render(f"Time: {round(tn - t0, 1)}", False, (0, 255, 0))
+        score_text = pygame.font.SysFont("Comic Sans MS", 16).render(f"Score: {snake.score}", False, (0, 255, 0))
         clock.tick(FPS * ((tn - t0) * 0.01 + 0.8))
 
         for event in pygame.event.get():
@@ -41,7 +45,7 @@ while start:
 
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_LEFT] and snake.direction != "right":
+        if keys[pygame.K_LEFT] and snake.direction != "right" and snake.direction != "hold":
             snake.set_direction("left")
         if keys[pygame.K_RIGHT] and snake.direction != "left":
             snake.set_direction("right")
@@ -64,7 +68,8 @@ while start:
 
         snake.draw()
         food.redraw()
-
+        display.blit(time_text, (440, 10))
+        display.blit(score_text, (440, 26))
         if snake.is_dead():
             display.blit(loosing_text, (200, 200))
             display.blit(revive_text, (200, 300))
